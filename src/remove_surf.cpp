@@ -191,7 +191,7 @@ void RemoveSurf::remove_3d(int groupbit)
 {
   int i;
 
-  // remove triangles in group
+  // remove tris in group
 
   Surf::Tri *tris = surf->tris;
   int ntri = surf->nsurf;
