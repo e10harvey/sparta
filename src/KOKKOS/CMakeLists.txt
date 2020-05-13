@@ -25,22 +25,26 @@ if(PKG_KOKKOS)
     file(GLOB SPARTA_PKG_KOKKOS_SRC_FILES
         LIST_DIRECTORIES false
         CONFIGURE_DEPENDS
-        *.cpp *.hpp *.h
+        *.cpp *.hpp *.h ${Kokkos_INCLUDE_DIRS_RET}/*.h ${Kokkos_INCLUDE_DIRS_RET}/*.hpp
     )
 
-    add_library(${TARGET_SPARTA_PKG_KOKKOS} STATIC ${SPARTA_PKG_KOKKOS_SRC_FILES})
-    set_target_properties(${TARGET_SPARTA_PKG_KOKKOS} PROPERTIES LINKER_LANGUAGE CXX)
+    set(SPA_SRC_FILES "${SPA_SRC_FILES};${SPARTA_PKG_KOKKOS_SRC_FILES}" PARENT_SCOPE)
+    set(TARGET_SPARTA_PKGS "${TARGET_SPARTA_PKGS};${CMAKE_CURRENT_SOURCE_DIR};${Kokkos_INCLUDE_DIRS_RET}" PARENT_SCOPE)
+    #add_library(${TARGET_SPARTA_PKG_KOKKOS} STATIC ${SPARTA_PKG_KOKKOS_SRC_FILES})
+    #add_custom_target(${TARGET_SPARTA_PKG_KOKKOS} SOURCES ${SPARTA_PKG_KOKKOS_SRC_FILES})
+    #set_target_properties(${TARGET_SPARTA_PKG_KOKKOS} PROPERTIES LINKER_LANGUAGE CXX)
 
-    target_link_libraries(${TARGET_SPARTA_PKG_KOKKOS} LINK_PRIVATE ${TARGET_SPARTA_BUILD_MPI_TPL})
+    #target_link_libraries(${TARGET_SPARTA_PKG_KOKKOS} LINK_PRIVATE ${TARGET_SPARTA_BUILD_MPI_TPL})
     
-    # This should handle resolving include directories when kokkos is updated.
-    target_link_libraries(${TARGET_SPARTA_PKG_KOKKOS} LINK_PRIVATE ${TARGET_SPARTA_BUILD_KOKKOS_TPL})
+    # This should handle resolving include directories, but these include paths
+    # are actually returned via Kokkos_INCLUDE_DIRS_RET.
+    #target_link_libraries(${TARGET_SPARTA_PKG_KOKKOS} LINK_PRIVATE ${TARGET_SPARTA_BUILD_KOKKOS_TPL})
     
     # Make include public so that targets which links against this can find the includes
-    target_include_directories(${TARGET_SPARTA_PKG_KOKKOS} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-    target_include_directories(${TARGET_SPARTA_PKG_KOKKOS} SYSTEM PUBLIC ${Kokkos_INCLUDE_DIRS_RET})
+    #target_include_directories(${TARGET_SPARTA_PKG_KOKKOS} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+    #target_include_directories(${TARGET_SPARTA_PKG_KOKKOS} PUBLIC ${Kokkos_INCLUDE_DIRS_RET})
     
     # Add include dependencies for building TARGET_SPARTA_PKG_KOKKOS
-    target_include_directories(${TARGET_SPARTA_PKG_KOKKOS} PRIVATE ${SPA_INCLUDE_DIRS})
+    #target_include_directories(${TARGET_SPARTA_PKG_KOKKOS} PRIVATE ${SPA_INCLUDE_DIRS})
     ########## END   TARGET_SPARTA_PKG_KOKKOS ##########
 endif()
