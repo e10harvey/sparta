@@ -163,8 +163,10 @@ KokkosSPARTA::KokkosSPARTA(SPARTA *sparta, int narg, char **arg) : Pointers(spar
 
 KokkosSPARTA::~KokkosSPARTA()
 {
-  // finalize Kokkos
+  // Block until all child threads in all execution spaces return control
+  Kokkos::fence();
 
+  // finalize Kokkos
   Kokkos::finalize();
 }
 
