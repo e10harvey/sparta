@@ -25,7 +25,7 @@ set(CMAKE_CXX_COMPILER
     "mpic++"
     CACHE STRING "")
 set(CMAKE_CXX_FLAGS
-    "-O3"
+    "-O2"
     CACHE STRING "")
 set(CMAKE_AR
     "ar"
